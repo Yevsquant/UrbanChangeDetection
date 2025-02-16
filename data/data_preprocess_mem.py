@@ -8,7 +8,7 @@ def preprocess(df):
     data['image'] = data['cluster_id'].astype(str) + "_" + data["time_period"] + ".jpg"
     data = data.drop(columns=["time_period", "cluster_id"])
     data["temp_id"] = range(0, len(data))
-    data["label"].value_counts()
+    print(data["label"].value_counts())
     data.to_csv('data.csv', index = False)
     data_mask = data.copy()
 
