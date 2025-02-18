@@ -6,7 +6,7 @@
 │   ├── data_preprocess_mem.py
 │   ├── data_preprocess_nyc.py
 │   ├── sample_data_nyc.png
-|   ├── streetscape_dataset_mem.py
+│   ├── streetscape_dataset_mem.py
 │   └── streetscape_dataset_nyc.py
 ├── models
 │   ├── l2_pooling.py
