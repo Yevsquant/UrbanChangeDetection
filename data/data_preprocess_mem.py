@@ -3,7 +3,6 @@ import pandas as pd
 def preprocess(df):
     data = df.copy()
     data = data.drop(["min_year", "max_year", 'left mask sum', 'right mask sum', 'min_panoid', 'max_panoid'], axis=1)
-    #data['cluster_id'] = data['cluster_id'].apply(convert_to_float)
     data['cluster_id'] = data['cluster_id'].astype(str)
     data['image'] = data['cluster_id'].astype(str) + "_" + data["time_period"] + ".jpg"
     data = data.drop(columns=["time_period", "cluster_id"])

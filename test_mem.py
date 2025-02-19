@@ -13,7 +13,7 @@ import pandas as pd
 from .data.streetscape_dataset_mem import StreetscapeDataset
 from .models.model import DISTS
 
-def test(image_path: str, mask_path: str, df_test, model, istest: bool = True, resize: bool = True):
+def test(image_path: str, mask_path: str, df_test, model, resize: bool = True):
     istest = True
     cudnn.benchmark = True
     cudnn.deterministic = True
@@ -47,3 +47,5 @@ def test(image_path: str, mask_path: str, df_test, model, istest: bool = True, r
     label_equality = (output['predicted_label'] == output['correct_label']).astype(int)
     acc = sum(label_equality) / len(label_equality)
     print(acc)
+
+    return acc

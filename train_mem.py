@@ -13,8 +13,8 @@ import math
 from .data.streetscape_dataset_mem import StreetscapeDataset
 from .models.model import DISTS
 
-def train(image_path: str, mask_path: str, df_train, df_val, istest: bool = False, resize: bool = True):
-
+def train(image_path: str, mask_path: str, df_train, df_val, num_epochs: int = 10, resize: bool = True):
+    istest = False
     cudnn.benchmark = True
     cudnn.deterministic = True
     cudnn.enabled = True
@@ -93,5 +93,7 @@ def train(image_path: str, mask_path: str, df_train, df_val, istest: bool = Fals
                 val_samples += label_pred.size(0)
             acc = float(val_correct) / val_samples
             val_acc_history.append(acc)
-        torch.save(model.state_dict(), f'10_epochs.pth')
+        torch.save(model.state_dict(), f'10_epochs_mem.pth')
         print("Finished Training Epoch: "+str(epoch+1))
+
+    return train_loss_history, train_acc_history, val_loss_history, val_acc_history, model
