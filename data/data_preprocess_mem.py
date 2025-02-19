@@ -1,6 +1,7 @@
 import pandas as pd
 
 def preprocess(df):
+    # extract useful freatures for training
     data = df.copy()
     data = data.drop(["min_year", "max_year", 'left mask sum', 'right mask sum', 'min_panoid', 'max_panoid'], axis=1)
     data['cluster_id'] = data['cluster_id'].astype(str)
@@ -26,7 +27,7 @@ def preprocess(df):
     df_balanced = data_mask.iloc[:len(data_mask)//4]
     """
 
-    # upsampling
+    # use the upsampling technique to set up training and validation dataframe
     df_train = pd.DataFrame(columns=data_mask.columns)
     df_val = pd.DataFrame(columns=data_mask.columns)
 

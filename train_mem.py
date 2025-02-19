@@ -23,6 +23,7 @@ def train(image_path: str, mask_path: str, df_train, df_val, num_epochs: int = 1
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"using {device}")
 
+    # Load data
     train_dataset = StreetscapeDataset(df_train, image_path, mask_path, istest, resize)
     val_dataset = StreetscapeDataset(df_val, image_path, mask_path, istest, resize)
 
@@ -30,12 +31,11 @@ def train(image_path: str, mask_path: str, df_train, df_val, num_epochs: int = 1
     val_loader = DataLoader(val_dataset, batch_size=8)
 
     model = DISTS()
-    #pretrained_dict = torch.load('./saved_pth/bestAfter10.pth')
-    #model.load_state_dict(pretrained_dict)
     model.train()
 
-    #loss_function = nn.CrossEntropyLoss()
-    tentative_weights = torch.tensor([1.0, math.sqrt(7.93)]) # 7.93 is the approximate ratio of label counts, too large weight values may cause gradient explosion
+    # Set loss function and optimizer
+    # 7.93 is the approximate ratio of label counts, too large weight values may cause gradient explosion
+    tentative_weights = torch.tensor([1.0, math.sqrt(7.93)])
     tentative_criterion = nn.CrossEntropyLoss(weight=tentative_weights.to(device))
     optimizer = optim.Adam(model.parameters(), lr=0.0001)
 
@@ -45,7 +45,7 @@ def train(image_path: str, mask_path: str, df_train, df_val, num_epochs: int = 1
     val_loss_history = []
     val_acc_history = []
 
-    num_epochs = 10
+    # Train a batch of data
     for epoch in range(num_epochs):
         running_loss = 0.0
         model.train()
@@ -84,7 +84,7 @@ def train(image_path: str, mask_path: str, df_train, df_val, num_epochs: int = 1
                 id, img1, img2, mask1, mask2, targets = data
                 scores = model(img1, img2, mask1, mask2, targets, istest=False, require_grad=False)
 
-                # cal the val loss
+                # calculate the val loss
                 loss = tentative_criterion(scores, targets)
                 val_loss_history.append(loss.item())
 

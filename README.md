@@ -39,7 +39,7 @@
 ## Run MEM data
 ### data/data_preprocess_mem.preprocess
 - **input**: dataframe
-- **sample dataframe**: ![format]((./data/sample_data_mem.png))
+- **sample dataframe**: ![format](./data/sample_data_mem.png)
 - **purpose**: confirm and store images and masks, split the data to training and validation sets
 - **return**: training dataframe, validation dataframe
 

@@ -23,10 +23,12 @@ def test(image_path: str, mask_path: str, df_test, model, resize: bool = True):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"using {device}")
 
+    # Load data
     sdataset = StreetscapeDataset(df_test, image_path, mask_path, istest, resize)
     sloader = DataLoader(sdataset, batch_size=16, shuffle=False, pin_memory=True)
     model.eval()
 
+    # Concatenate the output
     output = pd.DataFrame(columns=['ID', 'predicted_label'])
     with torch.no_grad():
         for ind, x, y, mask1, mask2, target in tqdm(sloader):
@@ -37,6 +39,7 @@ def test(image_path: str, mask_path: str, df_test, model, resize: bool = True):
             tempdf = pd.DataFrame(tempdf.numpy(), columns=['ID', 'predicted_label'])
             output = pd.concat([output, tempdf])
 
+    # Calculate accuracy
     output['ID'] = output['ID'].astype(int)
     output['predicted_label'] = output['predicted_label'].astype(int)
     output = output.reset_index(drop=True, inplace=False)
